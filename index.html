@@ -112,6 +112,8 @@
   <script>
     const _0x4f = ["aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZm9ybXMvZC9lLzFGQUlwUUxTZWZ6cUZIODlqOVRIU081TjJ5Vnlna2xlVmJpbENEUEp1TnhPczdTRjBjb2pCa3B3L3ZpZXdmb3Jt","ZW50cnkuNTMzMzg5NjUz","ZW50cnkuNzcxODQwMDM0","ZW50cnkuMTU3NDIwNzIxMg==","ZW50cnkuMTUzNTI1NjI1Ng==","ZW50cnkuMTA3MDk2MjQ4Nw==","ZW50cnkuMTM1OTg2NDI5OA==","ZW50cnkuNTI0NzE3OTgw"];
     const _v = (i) => atob(_0x4f[i]);
+    
+    // URL DEL BACKEND GUARDADA AUTOMÁTICAMENTE
     const urlAPI = "https://script.google.com/macros/s/AKfycbzK51P4fcuB62JNN3XVoFW92sZ8K0TUYFPbJBUQG7zuxogcMu5PYQX6UhYgePfRJ2F2/exec";
 
     function toggleAdvanced() {
@@ -119,10 +121,12 @@
       if (p.style.display === 'block') { p.style.display = 'none'; b.innerText = "⚙️ Opciones Avanzadas"; } 
       else { p.style.display = 'block'; b.innerText = "✖️ Ocultar Opciones"; }
     }
+    
     function checkOtros(sId, pId) {
       const v = document.getElementById(sId).value; const p = document.getElementById(pId);
       p.style.display = (v === 'Otros' || v === 'Otra actividad o deporte') ? 'block' : 'none';
     }
+    
     function vR(r) {
       var v = r.replace(/[^0-9kK]/g, ""); if (v.length < 8 || v.length > 9) return false;
       var c = v.slice(0, -1); var d = v.slice(-1).toUpperCase(); var s = 0; var m = 2;
@@ -143,20 +147,24 @@
       p.push(_v(4) + "=" + enc(document.getElementById('profesor').value.trim()));
       p.push(_v(6) + "=" + enc(document.getElementById('categoria').value));
 
+      // LÓGICA CORREGIDA PARA EL CAMPO "OTROS"
       let dVal = document.getElementById('disciplina').value;
       let dTxt = document.getElementById('otra_disc_txt').value.trim();
       if ((dVal === 'Otros' || dVal === 'Otra actividad o deporte') && dTxt !== '') {
-        p.push(_v(5) + "=__other_option__");
-        p.push(_v(5) + ".other_option_response=" + enc(dTxt));
-        dVal = dTxt;
-      } else { p.push(_v(5) + "=" + enc(dVal)); }
+        // Enviamos el texto directamente, Google Forms selecciona "Otros" automáticamente
+        p.push(_v(5) + "=" + enc(dTxt));
+        dVal = dTxt; 
+      } else { 
+        p.push(_v(5) + "=" + enc(dVal)); 
+      }
 
       let reVal = document.getElementById('recinto').value;
       let reTxt = document.getElementById('otro_rec_txt').value.trim();
       if (reVal === 'Otros' && reTxt !== '') {
-        p.push(_v(7) + "=__other_option__");
-        p.push(_v(7) + ".other_option_response=" + enc(reTxt));
-      } else { p.push(_v(7) + "=" + enc(reVal)); }
+        p.push(_v(7) + "=" + enc(reTxt));
+      } else { 
+        p.push(_v(7) + "=" + enc(reVal)); 
+      }
 
       document.getElementById("urlFinal").innerText = _v(0) + "?" + p.join("&"); 
       document.getElementById("resultado").style.display = "block";
