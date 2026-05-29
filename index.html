@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Marcador Estadio</title>
+  <style>
+    body { font-family: -apple-system, sans-serif; padding: 15px; background: #f0f2f5; margin: 0; color: #3c4043; }
+    .container { max-width: 450px; margin: 0 auto; background: white; padding: 24px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    h2 { color: #1a73e8; font-size: 1.4rem; text-align: center; margin: 0 0 10px 0; }
+    .bajada { font-size: 13px; text-align: center; color: #5f6368; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee;}
+    label { display: block; margin-top: 14px; font-weight: bold; font-size: 14px; }
+    .hint { font-size: 11px; color: #70757a; margin-bottom: 5px; }
+    input, select { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #dadce0; border-radius: 10px; font-size: 15px; outline: none; box-sizing: border-box; }
+    input:focus, select:focus { border-color: #1a73e8; }
+    button { width: 100%; padding: 16px; background: #1a73e8; color: white; border: none; border-radius: 12px; margin-top: 20px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .btn-copy { background: #34a853; margin-top: 15px; }
+    .btn-adv { background: none; color: #1a73e8; border: 2px dashed #1a73e8; padding: 10px; margin-top: 15px; font-size: 13px; border-radius: 10px; }
+    .adv-panel { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #dadce0; }
+    .sub-panel { display: none; margin-left: 10px; padding-left: 10px; border-left: 2px solid #1a73e8; }
+    #resultado { margin-top: 25px; display: none; background: #f8f9fa; padding: 15px; border-radius: 12px; }
+    .link-box { background: #fff; padding: 12px; border-radius: 8px; word-break: break-all; font-size: 11px; border: 1px solid #1a73e8; color: #174ea6; font-family: monospace; }
+    #copy-toast { display: none; margin-top: 10px; padding: 10px; background: #e6f4ea; color: #137333; border-radius: 8px; text-align: center; font-size: 13px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Asistente de Marcador</h2>
+    <p class="bajada">Genera tu enlace pre-llenado.</p>
+    
+    <label>Nombre del Atleta:</label>
+    <input type="text" id="nombre" placeholder="Ej: Juan Pérez">
+    
+    <label>RUT Atleta:</label>
+    <div class="hint">Formatos: 12345678-9, 12.345.678-9 o 123456789</div>
+    <input type="text" id="rut" placeholder="12.345.678-9">
+    
+    <button type="button" class="btn-adv" id="toggle_adv" onclick="toggleAdvanced()">⚙️ Opciones Avanzadas</button>
+    
+    <div class="adv-panel" id="adv_panel">
+      <label>Institución / Club / Colegio:</label>
+      <input type="text" id="club" value="Colegio Montessori">
+      
+      <label>Profesor a cargo:</label>
+      <input type="text" id="profesor" value="Lukas Sazo">
+      
+      <label>Disciplina Deportiva:</label>
+      <select id="disciplina" onchange="checkOtros('disciplina', 'div_otra_disc')">
+        <option value="Atletismo" selected>Atletismo</option>
+        <option value="Natación">Natación</option>
+        <option value="Hockey patín">Hockey patín</option>
+        <option value="Tenis de mesa">Tenis de mesa</option>
+        <option value="Acondicionamiento físico">Acondicionamiento físico</option>
+        <option value="Entrenamiento funcional">Entrenamiento funcional</option>
+        <option value="Yoga">Yoga</option>
+        <option value="Zumba">Zumba</option>
+        <option value="Baile entretenido">Baile entretenido</option>
+        <option value="Halterofilia">Halterofilia</option>
+        <option value="Karate">Karate</option>
+        <option value="Fútbol">Fútbol</option>
+        <option value="Balonmano">Balonmano</option>
+        <option value="Taekwondo">Taekwondo</option>
+        <option value="Futsal">Futsal</option>
+        <option value="Judo">Judo</option>
+        <option value="Patinaje">Patinaje</option>
+        <option value="Otra actividad o deporte">Otra actividad o deporte</option>
+        <option value="Otros">Otros</option>
+      </select>
+      
+      <div class="sub-panel" id="div_otra_disc">
+        <label>Escriba la otra actividad:</label>
+        <input type="text" id="otra_disc_txt" placeholder="Ej: Vóleibol">
+      </div>
+      
+      <label>Categoría de Usuario:</label>
+      <select id="categoria">
+        <option value="USUARIO PARTICULAR (No pertenece a los programas anteriores)" selected>Usuario Particular</option>
+        <option value="CEM">CEM</option>
+        <option value="DPS">DPS</option>
+        <option value="PROMESAS CHILE">PROMESAS CHILE</option>
+        <option value="USUARIO DE CLUBES DEPORTIVOS EN CONVENIO CON IND">Usuario Clubes en Convenio IND</option>
+      </select>
+      
+      <label>Recinto a utilizar:</label>
+      <select id="recinto" onchange="checkOtros('recinto', 'div_otro_rec')">
+        <option value="Pista Atlética" selected>Pista Atlética</option>
+        <option value="Piscina Temperada">Piscina Temperada</option>
+        <option value="Piscina al Aire Libre">Piscina al Aire Libre</option>
+        <option value="Salón de Tenis de Mesa (Cendyr)">Salón de Tenis de Mesa (Cendyr)</option>
+        <option value="Zona Calentamiento Sur">Zona Calentamiento Sur</option>
+        <option value="Zona Calentamiento Norte">Zona Calentamiento Norte</option>
+        <option value="Sala de Prensa">Sala de Prensa</option>
+        <option value="Sala Multiuso 3er Piso">Sala Multiuso 3er Piso</option>
+        <option value="Parque Piscina Temperada">Parque Piscina Temperada</option>
+        <option value="Sala Conferencias">Sala Conferencias</option>
+        <option value="Complejo Deportivo (5 Norte)">Complejo Deportivo (5 Norte)</option>
+        <option value="Cancha Hockey/Balonmano">Cancha Hockey/Balonmano</option>
+        <option value="Sala Musculación Piscina Temperada">Sala Musculación Piscina Temperada</option>
+        <option value="Cancha Central Estadio Fiscal">Cancha Central Estadio Fiscal</option>
+        <option value="Sala de Musculacion de Canotaje (Sala 70)">Sala de Musculacion de Canotaje (Sala 70)</option>
+        <option value="Sala de Musculacion (Cendyr)">Sala de Musculacion (Cendyr)</option>
+        <option value="Salón de Karate (Cendyr)">Salón de Karate (Cendyr)</option>
+        <option value="Sala de Halterofilia (Cendyr)">Sala de Halterofilia (Cendyr)</option>
+        <option value="Otros">Otros</option>
+      </select>
+      
+      <div class="sub-panel" id="div_otro_rec">
+        <label>Escriba el otro recinto:</label>
+        <input type="text" id="otro_rec_txt" placeholder="Ej: Camarin 3">
+      </div>
+    </div>
+    
+    <button id="proc_btn" onclick="generarLink()">GENERAR MARCADOR</button>
+    
+    <div id="resultado">
+      <label>Tu enlace de acceso pre-llenado:</label>
+      <div id="urlFinal" class="link-box"></div>
+      <button class="btn-copy" id="btnCopiar" onclick="copiarLink()">📋 COPIAR MARCADOR</button>
+      <div id="copy-toast">✅ ¡Copiado con éxito!</div>
+    </div>
+  </div>
+
+  <script>
+    // URL Base64 del Formulario
+    const _0x4f = ["aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZm9ybXMvZC9lLzFGQUlwUUxTZWZ6cUZIODlqOVRIU081TjJ5Vnlna2xlVmJpbENEUEp1TnhPczdTRjBjb2pCa3B3L3ZpZXdmb3Jt","ZW50cnkuNTMzMzg5NjUz","ZW50cnkuNzcxODQwMDM0","ZW50cnkuMTU3NDIwNzIxMg==","ZW50cnkuMTUzNTI1NjI1Ng==","ZW50cnkuMTA3MDk2MjQ4Nw==","ZW50cnkuMTM1OTg2NDI5OA==","ZW50cnkuNTI0NzE3OTgw"];
+    const _v = (i) => atob(_0x4f[i]);
+    
+    // URL DEL BACKEND (Pega aquí la URL de tu Web App de Google Apps Script)
+    const urlAPI = "https://script.google.com/macros/s/AKfycbzK51P4fcuB62JNN3XVoFW92sZ8K0TUYFPbJBUQG7zuxogcMu5PYQX6UhYgePfRJ2F2/exec";
+
+    function toggleAdvanced() {
+      const p = document.getElementById('adv_panel'); const b = document.getElementById('toggle_adv');
+      if (p.style.display === 'block') { p.style.display = 'none'; b.innerText = "⚙️ Opciones Avanzadas"; } 
+      else { p.style.display = 'block'; b.innerText = "✖️ Ocultar Opciones"; }
+    }
+    
+    function checkOtros(sId, pId) {
+      const v = document.getElementById(sId).value; const p = document.getElementById(pId);
+      p.style.display = (v === 'Otros' || v === 'Otra actividad o deporte') ? 'block' : 'none';
+    }
+    
+    function vR(r) {
+      var v = r.replace(/[^0-9kK]/g, ""); if (v.length < 8 || v.length > 9) return false;
+      var c = v.slice(0, -1); var d = v.slice(-1).toUpperCase(); var s = 0; var m = 2;
+      for (var i = 1; i <= c.length; i++) { s = s + (m * c.charAt(c.length - i)); m = (m < 7) ? m + 1 : 2; }
+      var de = 11 - (s % 11); return d == ((de == 11) ? 0 : ((de == 10) ? "K" : de));
+    }
+    
+    function generarLink() {
+      const nVal = document.getElementById('nombre').value.trim(); const rVal = document.getElementById('rut').value.trim();
+      if (nVal.length < 3) { alert("Ingresa el nombre."); return; }
+      if (!vR(rVal)) { alert("RUT no válido."); return; }
+      const r_u = rVal.replace(/[^0-9kK]/g, "").toUpperCase(); const cVal = document.getElementById('club').value.trim();
+      const pVal = document.getElementById('profesor').value.trim(); let dVal = document.getElementById('disciplina').value;
+      if ((dVal === 'Otros' || dVal === 'Otra actividad o deporte') && document.getElementById('otra_disc_txt').value.trim() !== '') { dVal = document.getElementById('otra_disc_txt').value.trim(); }
+      const caVal = document.getElementById('categoria').value; let reVal = document.getElementById('recinto').value;
+      if (reVal === 'Otros' && document.getElementById('otro_rec_txt').value.trim() !== '') { reVal = document.getElementById('otro_rec_txt').value.trim(); }
+      const enc = (val) => encodeURIComponent(val).replace(/%20/g, "+");
+      
+      const finalUrl = _v(0) + "?" + _v(1) + "=" + enc(nVal) + "&" + _v(2) + "=" + enc(r_u) + "&" + _v(3) + "=" + enc(cVal) + "&" + _v(4) + "=" + enc(pVal) + "&" + _v(5) + "=" + enc(dVal) + "&" + _v(6) + "=" + enc(caVal) + "&" + _v(7) + "=" + enc(reVal);
+      
+      document.getElementById("urlFinal").innerText = finalUrl; document.getElementById("resultado").style.display = "block";
+      document.getElementById("copy-toast").style.display = "none"; 
+      
+      // Enviar datos al backend de Google Sheets de forma silenciosa
+      let formData = new FormData();
+      formData.append("nombre", nVal);
+      formData.append("rut", r_u);
+      formData.append("disciplina", dVal);
+      
+      fetch(urlAPI, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors' // Evita errores de permisos cruzados (CORS)
+      }).catch(e => console.log(""));
+    }
+    
+    function copiarLink() {
+      const t = document.getElementById("urlFinal").innerText; const x = document.createElement("textarea"); 
+      document.body.appendChild(x); x.value = t; x.select(); document.execCommand("copy"); 
+      document.body.removeChild(x); document.getElementById("copy-toast").style.display = "block";
+    }
+  </script>
+</body>
+</html>
