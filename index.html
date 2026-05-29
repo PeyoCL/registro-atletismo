@@ -16,6 +16,7 @@
     button { width: 100%; padding: 16px; background: #1a73e8; color: white; border: none; border-radius: 12px; margin-top: 20px; font-size: 16px; font-weight: bold; cursor: pointer; }
     .btn-copy { background: #34a853; margin-top: 15px; }
     .btn-adv { background: none; color: #1a73e8; border: 2px dashed #1a73e8; padding: 10px; margin-top: 15px; font-size: 13px; border-radius: 10px; }
+    .btn-adv:hover { background: #f4f8fe; }
     .adv-panel { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #dadce0; }
     .sub-panel { display: none; margin-left: 10px; padding-left: 10px; border-left: 2px solid #1a73e8; }
     #resultado { margin-top: 25px; display: none; background: #f8f9fa; padding: 15px; border-radius: 12px; }
@@ -27,18 +28,23 @@
   <div class="container">
     <h2>Asistente de Marcador</h2>
     <p class="bajada">Genera tu enlace pre-llenado.</p>
+    
     <label>Nombre del Atleta:</label>
     <input type="text" id="nombre" placeholder="Ej: Juan Pérez">
+    
     <label>RUT Atleta:</label>
     <div class="hint">Formatos: 12345678-9, 12.345.678-9 o 123456789</div>
     <input type="text" id="rut" placeholder="12.345.678-9">
+    
     <button type="button" class="btn-adv" id="toggle_adv" onclick="toggleAdvanced()">⚙️ Opciones Avanzadas</button>
     
     <div class="adv-panel" id="adv_panel">
       <label>Institución / Club / Colegio:</label>
       <input type="text" id="club" value="Colegio Montessori">
+      
       <label>Profesor a cargo:</label>
       <input type="text" id="profesor" value="Lukas Sazo">
+      
       <label>Disciplina Deportiva:</label>
       <select id="disciplina" onchange="checkOtros('disciplina', 'div_otra_disc')">
         <option value="Atletismo" selected>Atletismo</option>
@@ -61,24 +67,26 @@
         <option value="Otra actividad o deporte">Otra actividad o deporte</option>
         <option value="Otros">Otros</option>
       </select>
+      
       <div class="sub-panel" id="div_otra_disc">
-        <label>Escriba la otra actividad:</label>
+        <label>Escriba el deporte:</label>
         <input type="text" id="otra_disc_txt" placeholder="Ej: Vóleibol">
       </div>
       <label>Categoría de Usuario:</label>
       <select id="categoria">
-        <option value="USUARIO PARTICULAR (No pertenece a los programas anteriores)" selected>Usuario Particular</option>
         <option value="CEM">CEM</option>
         <option value="DPS">DPS</option>
         <option value="PROMESAS CHILE">PROMESAS CHILE</option>
         <option value="USUARIO DE CLUBES DEPORTIVOS EN CONVENIO CON IND">Usuario Clubes en Convenio IND</option>
+        <option value="USUARIO PARTICULAR (No pertenece a los programas anteriores)" selected>Usuario Particular</option>
       </select>
+      
       <label>Recinto a utilizar:</label>
       <select id="recinto" onchange="checkOtros('recinto', 'div_otro_rec')">
-        <option value="Pista Atlética" selected>Pista Atlética</option>
         <option value="Piscina Temperada">Piscina Temperada</option>
         <option value="Piscina al Aire Libre">Piscina al Aire Libre</option>
         <option value="Salón de Tenis de Mesa (Cendyr)">Salón de Tenis de Mesa (Cendyr)</option>
+        <option value="Pista Atlética" selected>Pista Atlética</option>
         <option value="Zona Calentamiento Sur">Zona Calentamiento Sur</option>
         <option value="Zona Calentamiento Norte">Zona Calentamiento Norte</option>
         <option value="Sala de Prensa">Sala de Prensa</option>
@@ -95,13 +103,15 @@
         <option value="Sala de Halterofilia (Cendyr)">Sala de Halterofilia (Cendyr)</option>
         <option value="Otros">Otros</option>
       </select>
+      
       <div class="sub-panel" id="div_otro_rec">
-        <label>Escriba el otro recinto:</label>
+        <label>Escriba el recinto:</label>
         <input type="text" id="otro_rec_txt" placeholder="Ej: Camarin 3">
       </div>
     </div>
     
     <button id="proc_btn" onclick="generarLink()">GENERAR MARCADOR</button>
+    
     <div id="resultado">
       <label>Tu enlace de acceso pre-llenado:</label>
       <div id="urlFinal" class="link-box"></div>
@@ -110,21 +120,37 @@
     </div>
   </div>
   <script>
-    const _0x4f = ["aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZm9ybXMvZC9lLzFGQUlwUUxTZWZ6cUZIODlqOVRIU081TjJ5Vnlna2xlVmJpbENEUEp1TnhPczdTRjBjb2pCa3B3L3ZpZXdmb3Jt","ZW50cnkuNTMzMzg5NjUz","ZW50cnkuNzcxODQwMDM0","ZW50cnkuMTU3NDIwNzIxMg==","ZW50cnkuMTUzNTI1NjI1Ng==","ZW50cnkuMTA3MDk2MjQ4Nw==","ZW50cnkuMTM1OTg2NDI5OA==","ZW50cnkuNTI0NzE3OTgw"];
-    const _v = (i) => atob(_0x4f[i]);
-    
-    // URL DEL BACKEND GUARDADA AUTOMÁTICAMENTE
     const urlAPI = "https://script.google.com/macros/s/AKfycbzK51P4fcuB62JNN3XVoFW92sZ8K0TUYFPbJBUQG7zuxogcMu5PYQX6UhYgePfRJ2F2/exec";
+    const formBaseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSefzqFH89j9THSO5N2yVygkleVbilCDPJuNxOs7SF0cojBkpw/viewform";
 
     function toggleAdvanced() {
-      const p = document.getElementById('adv_panel'); const b = document.getElementById('toggle_adv');
-      if (p.style.display === 'block') { p.style.display = 'none'; b.innerText = "⚙️ Opciones Avanzadas"; } 
-      else { p.style.display = 'block'; b.innerText = "✖️ Ocultar Opciones"; }
+      const p = document.getElementById('adv_panel'); 
+      const b = document.getElementById('toggle_adv');
+      if (p.style.display === 'block') { 
+        // Ocultar panel y RESTAURAR valores por defecto
+        p.style.display = 'none'; 
+        b.innerText = "⚙️ Opciones Avanzadas"; 
+        
+        document.getElementById('club').value = "Colegio Montessori";
+        document.getElementById('profesor').value = "Lukas Sazo";
+        document.getElementById('disciplina').value = "Atletismo";
+        document.getElementById('categoria').value = "USUARIO PARTICULAR (No pertenece a los programas anteriores)";
+        document.getElementById('recinto').value = "Pista Atlética";
+        
+        // Limpiar campos "Otros"
+        document.getElementById('otra_disc_txt').value = "";
+        document.getElementById('div_otra_disc').style.display = 'none';
+        document.getElementById('otro_rec_txt').value = "";
+        document.getElementById('div_otro_rec').style.display = 'none';
+      } else { 
+        p.style.display = 'block'; 
+        b.innerText = "✖️ Ocultar y Restaurar a Atletismo"; 
+      }
     }
     
     function checkOtros(sId, pId) {
-      const v = document.getElementById(sId).value; const p = document.getElementById(pId);
-      p.style.display = (v === 'Otros' || v === 'Otra actividad o deporte') ? 'block' : 'none';
+      const v = document.getElementById(sId).value; 
+      document.getElementById(pId).style.display = (v === 'Otros') ? 'block' : 'none';
     }
     
     function vR(r) {
@@ -135,38 +161,44 @@
     }
     
     function generarLink() {
-      const nVal = document.getElementById('nombre').value.trim(); const rVal = document.getElementById('rut').value.trim();
+      const nVal = document.getElementById('nombre').value.trim(); 
+      const rVal = document.getElementById('rut').value.trim();
+      
       if (nVal.length < 3) { alert("Ingresa el nombre."); return; }
       if (!vR(rVal)) { alert("RUT no válido."); return; }
       const enc = (val) => encodeURIComponent(val).replace(/%20/g, "+");
       
       let p = [];
-      p.push(_v(1) + "=" + enc(nVal));
-      p.push(_v(2) + "=" + enc(rVal.replace(/[^0-9kK]/g, "").toUpperCase()));
-      p.push(_v(3) + "=" + enc(document.getElementById('club').value.trim()));
-      p.push(_v(4) + "=" + enc(document.getElementById('profesor').value.trim()));
-      p.push(_v(6) + "=" + enc(document.getElementById('categoria').value));
+      p.push("entry.533389653=" + enc(nVal));
+      p.push("entry.771840034=" + enc(rVal.replace(/[^0-9kK]/g, "").toUpperCase()));
+      p.push("entry.1574207212=" + enc(document.getElementById('club').value.trim()));
+      p.push("entry.1535256256=" + enc(document.getElementById('profesor').value.trim()));
+      p.push("entry.1359864298=" + enc(document.getElementById('categoria').value));
 
-      // LÓGICA CORREGIDA PARA EL CAMPO "OTROS"
+      // Logica nativa para "Otros" en Disciplina (ID 1070962487)
       let dVal = document.getElementById('disciplina').value;
-      let dTxt = document.getElementById('otra_disc_txt').value.trim();
-      if ((dVal === 'Otros' || dVal === 'Otra actividad o deporte') && dTxt !== '') {
-        // Enviamos el texto directamente, Google Forms selecciona "Otros" automáticamente
-        p.push(_v(5) + "=" + enc(dTxt));
+      if (dVal === 'Otros') {
+        let dTxt = document.getElementById('otra_disc_txt').value.trim();
+        p.push("entry.1070962487=__other_option__");
+        p.push("entry.1070962487.other_option_response=" + enc(dTxt));
         dVal = dTxt; 
+        
       } else { 
-        p.push(_v(5) + "=" + enc(dVal)); 
+        p.push("entry.1070962487=" + enc(dVal)); 
       }
 
+      // Logica nativa para "Otros" en Recinto (ID 524717980)
       let reVal = document.getElementById('recinto').value;
-      let reTxt = document.getElementById('otro_rec_txt').value.trim();
-      if (reVal === 'Otros' && reTxt !== '') {
-        p.push(_v(7) + "=" + enc(reTxt));
+      if (reVal === 'Otros') {
+        let reTxt = document.getElementById('otro_rec_txt').value.trim();
+        p.push("entry.524717980=__other_option__");
+        p.push("entry.524717980.other_option_response=" + enc(reTxt));
       } else { 
-        p.push(_v(7) + "=" + enc(reVal)); 
+        p.push("entry.524717980=" + enc(reVal)); 
       }
 
-      document.getElementById("urlFinal").innerText = _v(0) + "?" + p.join("&"); 
+      // Construcción URL final
+      document.getElementById("urlFinal").innerText = formBaseUrl + "?" + p.join("&"); 
       document.getElementById("resultado").style.display = "block";
       document.getElementById("copy-toast").style.display = "none"; 
       
