@@ -40,14 +40,14 @@
     
     <div class="adv-panel" id="adv_panel">
       <label>Institución / Club / Colegio:</label>
-      <input type="text" id="club" value="Colegio Montessori">
+      <input type="text" id="club">
       
       <label>Profesor a cargo:</label>
-      <input type="text" id="profesor" value="Lukas Sazo">
+      <input type="text" id="profesor">
       
       <label>Disciplina Deportiva:</label>
       <select id="disciplina" onchange="checkOtros('disciplina', 'div_otra_disc')">
-        <option value="Atletismo" selected>Atletismo</option>
+        <option value="Atletismo">Atletismo</option>
         <option value="Natación">Natación</option>
         <option value="Hockey patín">Hockey patín</option>
         <option value="Tenis de mesa">Tenis de mesa</option>
@@ -78,7 +78,7 @@
         <option value="DPS">DPS</option>
         <option value="PROMESAS CHILE">PROMESAS CHILE</option>
         <option value="USUARIO DE CLUBES DEPORTIVOS EN CONVENIO CON IND">Usuario Clubes en Convenio IND</option>
-        <option value="USUARIO PARTICULAR (No pertenece a los programas anteriores)" selected>Usuario Particular</option>
+        <option value="USUARIO PARTICULAR (No pertenece a los programas anteriores)">Usuario Particular</option>
       </select>
       
       <label>Recinto a utilizar:</label>
@@ -86,7 +86,7 @@
         <option value="Piscina Temperada">Piscina Temperada</option>
         <option value="Piscina al Aire Libre">Piscina al Aire Libre</option>
         <option value="Salón de Tenis de Mesa (Cendyr)">Salón de Tenis de Mesa (Cendyr)</option>
-        <option value="Pista Atlética" selected>Pista Atlética</option>
+        <option value="Pista Atlética">Pista Atlética</option>
         <option value="Zona Calentamiento Sur">Zona Calentamiento Sur</option>
         <option value="Zona Calentamiento Norte">Zona Calentamiento Norte</option>
         <option value="Sala de Prensa">Sala de Prensa</option>
@@ -123,25 +123,42 @@
     const urlAPI = "https://script.google.com/macros/s/AKfycbzK51P4fcuB62JNN3XVoFW92sZ8K0TUYFPbJBUQG7zuxogcMu5PYQX6UhYgePfRJ2F2/exec";
     const formBaseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSefzqFH89j9THSO5N2yVygkleVbilCDPJuNxOs7SF0cojBkpw/viewform";
 
+    // --- VALORES POR DEFECTO EN BASE64 ---
+    const _b64 = {
+      club: "Q29sZWdpbyBNb250ZXNzb3Jp", // Colegio Montessori
+      prof: "THVrYXMgU2F6bw==", // Lukas Sazo
+      disc: "QXRsZXRpc21v", // Atletismo
+      cat: "VVNVQVJJTyBQQVJUSUNVTEFSIChObyBwZXJ0ZW5lY2UgYSBsb3MgcHJvZ3JhbWFzIGFudGVyaW9yZXMp", // Usuario Particular...
+      rec: "UGlzdGEgQXRsw6l0aWNh" // Pista Atlética
+    };
+
+    // Función segura para decodificar (soporta tildes como la "é" de Atlética)
+    const _d64 = (str) => decodeURIComponent(escape(atob(str)));
+
+    // Inyecta los valores en pantalla al cargar o al resetear
+    function setDefaults() {
+      document.getElementById('club').value = _d64(_b64.club);
+      document.getElementById('profesor').value = _d64(_b64.prof);
+      document.getElementById('disciplina').value = _d64(_b64.disc);
+      document.getElementById('categoria').value = _d64(_b64.cat);
+      document.getElementById('recinto').value = _d64(_b64.rec);
+      
+      document.getElementById('otra_disc_txt').value = "";
+      document.getElementById('div_otra_disc').style.display = 'none';
+      document.getElementById('otro_rec_txt').value = "";
+      document.getElementById('div_otro_rec').style.display = 'none';
+    }
+
+    // Inicializar al abrir la página
+    window.onload = setDefaults;
+
     function toggleAdvanced() {
       const p = document.getElementById('adv_panel'); 
       const b = document.getElementById('toggle_adv');
       if (p.style.display === 'block') { 
-        // Ocultar panel y RESTAURAR valores por defecto
         p.style.display = 'none'; 
         b.innerText = "⚙️ Opciones Avanzadas"; 
-        
-        document.getElementById('club').value = "Colegio Montessori";
-        document.getElementById('profesor').value = "Lukas Sazo";
-        document.getElementById('disciplina').value = "Atletismo";
-        document.getElementById('categoria').value = "USUARIO PARTICULAR (No pertenece a los programas anteriores)";
-        document.getElementById('recinto').value = "Pista Atlética";
-        
-        // Limpiar campos "Otros"
-        document.getElementById('otra_disc_txt').value = "";
-        document.getElementById('div_otra_disc').style.display = 'none';
-        document.getElementById('otro_rec_txt').value = "";
-        document.getElementById('div_otro_rec').style.display = 'none';
+        setDefaults(); // Restaura automáticamente los valores ocultos
       } else { 
         p.style.display = 'block'; 
         b.innerText = "✖️ Ocultar y Restaurar a Atletismo"; 
@@ -175,19 +192,16 @@
       p.push("entry.1535256256=" + enc(document.getElementById('profesor').value.trim()));
       p.push("entry.1359864298=" + enc(document.getElementById('categoria').value));
 
-      // Logica nativa para "Otros" en Disciplina (ID 1070962487)
       let dVal = document.getElementById('disciplina').value;
       if (dVal === 'Otros') {
         let dTxt = document.getElementById('otra_disc_txt').value.trim();
         p.push("entry.1070962487=__other_option__");
         p.push("entry.1070962487.other_option_response=" + enc(dTxt));
         dVal = dTxt; 
-        
       } else { 
         p.push("entry.1070962487=" + enc(dVal)); 
       }
 
-      // Logica nativa para "Otros" en Recinto (ID 524717980)
       let reVal = document.getElementById('recinto').value;
       if (reVal === 'Otros') {
         let reTxt = document.getElementById('otro_rec_txt').value.trim();
@@ -197,7 +211,6 @@
         p.push("entry.524717980=" + enc(reVal)); 
       }
 
-      // Construcción URL final
       document.getElementById("urlFinal").innerText = formBaseUrl + "?" + p.join("&"); 
       document.getElementById("resultado").style.display = "block";
       document.getElementById("copy-toast").style.display = "none"; 
