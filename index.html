@@ -27,23 +27,18 @@
   <div class="container">
     <h2>Asistente de Marcador</h2>
     <p class="bajada">Genera tu enlace pre-llenado.</p>
-    
     <label>Nombre del Atleta:</label>
     <input type="text" id="nombre" placeholder="Ej: Juan Pérez">
-    
     <label>RUT Atleta:</label>
     <div class="hint">Formatos: 12345678-9, 12.345.678-9 o 123456789</div>
     <input type="text" id="rut" placeholder="12.345.678-9">
-    
     <button type="button" class="btn-adv" id="toggle_adv" onclick="toggleAdvanced()">⚙️ Opciones Avanzadas</button>
     
     <div class="adv-panel" id="adv_panel">
       <label>Institución / Club / Colegio:</label>
       <input type="text" id="club" value="Colegio Montessori">
-      
       <label>Profesor a cargo:</label>
       <input type="text" id="profesor" value="Lukas Sazo">
-      
       <label>Disciplina Deportiva:</label>
       <select id="disciplina" onchange="checkOtros('disciplina', 'div_otra_disc')">
         <option value="Atletismo" selected>Atletismo</option>
@@ -66,12 +61,10 @@
         <option value="Otra actividad o deporte">Otra actividad o deporte</option>
         <option value="Otros">Otros</option>
       </select>
-      
       <div class="sub-panel" id="div_otra_disc">
         <label>Escriba la otra actividad:</label>
         <input type="text" id="otra_disc_txt" placeholder="Ej: Vóleibol">
       </div>
-      
       <label>Categoría de Usuario:</label>
       <select id="categoria">
         <option value="USUARIO PARTICULAR (No pertenece a los programas anteriores)" selected>Usuario Particular</option>
@@ -80,7 +73,6 @@
         <option value="PROMESAS CHILE">PROMESAS CHILE</option>
         <option value="USUARIO DE CLUBES DEPORTIVOS EN CONVENIO CON IND">Usuario Clubes en Convenio IND</option>
       </select>
-      
       <label>Recinto a utilizar:</label>
       <select id="recinto" onchange="checkOtros('recinto', 'div_otro_rec')">
         <option value="Pista Atlética" selected>Pista Atlética</option>
@@ -103,7 +95,6 @@
         <option value="Sala de Halterofilia (Cendyr)">Sala de Halterofilia (Cendyr)</option>
         <option value="Otros">Otros</option>
       </select>
-      
       <div class="sub-panel" id="div_otro_rec">
         <label>Escriba el otro recinto:</label>
         <input type="text" id="otro_rec_txt" placeholder="Ej: Camarin 3">
@@ -111,7 +102,6 @@
     </div>
     
     <button id="proc_btn" onclick="generarLink()">GENERAR MARCADOR</button>
-    
     <div id="resultado">
       <label>Tu enlace de acceso pre-llenado:</label>
       <div id="urlFinal" class="link-box"></div>
@@ -119,13 +109,9 @@
       <div id="copy-toast">✅ ¡Copiado con éxito!</div>
     </div>
   </div>
-
   <script>
-    // URL Base64 del Formulario
     const _0x4f = ["aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vZm9ybXMvZC9lLzFGQUlwUUxTZWZ6cUZIODlqOVRIU081TjJ5Vnlna2xlVmJpbENEUEp1TnhPczdTRjBjb2pCa3B3L3ZpZXdmb3Jt","ZW50cnkuNTMzMzg5NjUz","ZW50cnkuNzcxODQwMDM0","ZW50cnkuMTU3NDIwNzIxMg==","ZW50cnkuMTUzNTI1NjI1Ng==","ZW50cnkuMTA3MDk2MjQ4Nw==","ZW50cnkuMTM1OTg2NDI5OA==","ZW50cnkuNTI0NzE3OTgw"];
     const _v = (i) => atob(_0x4f[i]);
-    
-    // URL DEL BACKEND (Pega aquí la URL de tu Web App de Google Apps Script)
     const urlAPI = "https://script.google.com/macros/s/AKfycbzK51P4fcuB62JNN3XVoFW92sZ8K0TUYFPbJBUQG7zuxogcMu5PYQX6UhYgePfRJ2F2/exec";
 
     function toggleAdvanced() {
@@ -133,12 +119,10 @@
       if (p.style.display === 'block') { p.style.display = 'none'; b.innerText = "⚙️ Opciones Avanzadas"; } 
       else { p.style.display = 'block'; b.innerText = "✖️ Ocultar Opciones"; }
     }
-    
     function checkOtros(sId, pId) {
       const v = document.getElementById(sId).value; const p = document.getElementById(pId);
       p.style.display = (v === 'Otros' || v === 'Otra actividad o deporte') ? 'block' : 'none';
     }
-    
     function vR(r) {
       var v = r.replace(/[^0-9kK]/g, ""); if (v.length < 8 || v.length > 9) return false;
       var c = v.slice(0, -1); var d = v.slice(-1).toUpperCase(); var s = 0; var m = 2;
@@ -150,29 +134,36 @@
       const nVal = document.getElementById('nombre').value.trim(); const rVal = document.getElementById('rut').value.trim();
       if (nVal.length < 3) { alert("Ingresa el nombre."); return; }
       if (!vR(rVal)) { alert("RUT no válido."); return; }
-      const r_u = rVal.replace(/[^0-9kK]/g, "").toUpperCase(); const cVal = document.getElementById('club').value.trim();
-      const pVal = document.getElementById('profesor').value.trim(); let dVal = document.getElementById('disciplina').value;
-      if ((dVal === 'Otros' || dVal === 'Otra actividad o deporte') && document.getElementById('otra_disc_txt').value.trim() !== '') { dVal = document.getElementById('otra_disc_txt').value.trim(); }
-      const caVal = document.getElementById('categoria').value; let reVal = document.getElementById('recinto').value;
-      if (reVal === 'Otros' && document.getElementById('otro_rec_txt').value.trim() !== '') { reVal = document.getElementById('otro_rec_txt').value.trim(); }
       const enc = (val) => encodeURIComponent(val).replace(/%20/g, "+");
       
-      const finalUrl = _v(0) + "?" + _v(1) + "=" + enc(nVal) + "&" + _v(2) + "=" + enc(r_u) + "&" + _v(3) + "=" + enc(cVal) + "&" + _v(4) + "=" + enc(pVal) + "&" + _v(5) + "=" + enc(dVal) + "&" + _v(6) + "=" + enc(caVal) + "&" + _v(7) + "=" + enc(reVal);
-      
-      document.getElementById("urlFinal").innerText = finalUrl; document.getElementById("resultado").style.display = "block";
+      let p = [];
+      p.push(_v(1) + "=" + enc(nVal));
+      p.push(_v(2) + "=" + enc(rVal.replace(/[^0-9kK]/g, "").toUpperCase()));
+      p.push(_v(3) + "=" + enc(document.getElementById('club').value.trim()));
+      p.push(_v(4) + "=" + enc(document.getElementById('profesor').value.trim()));
+      p.push(_v(6) + "=" + enc(document.getElementById('categoria').value));
+
+      let dVal = document.getElementById('disciplina').value;
+      let dTxt = document.getElementById('otra_disc_txt').value.trim();
+      if ((dVal === 'Otros' || dVal === 'Otra actividad o deporte') && dTxt !== '') {
+        p.push(_v(5) + "=__other_option__");
+        p.push(_v(5) + ".other_option_response=" + enc(dTxt));
+        dVal = dTxt;
+      } else { p.push(_v(5) + "=" + enc(dVal)); }
+
+      let reVal = document.getElementById('recinto').value;
+      let reTxt = document.getElementById('otro_rec_txt').value.trim();
+      if (reVal === 'Otros' && reTxt !== '') {
+        p.push(_v(7) + "=__other_option__");
+        p.push(_v(7) + ".other_option_response=" + enc(reTxt));
+      } else { p.push(_v(7) + "=" + enc(reVal)); }
+
+      document.getElementById("urlFinal").innerText = _v(0) + "?" + p.join("&"); 
+      document.getElementById("resultado").style.display = "block";
       document.getElementById("copy-toast").style.display = "none"; 
       
-      // Enviar datos al backend de Google Sheets de forma silenciosa
-      let formData = new FormData();
-      formData.append("nombre", nVal);
-      formData.append("rut", r_u);
-      formData.append("disciplina", dVal);
-      
-      fetch(urlAPI, {
-        method: 'POST',
-        body: formData,
-        mode: 'no-cors' // Evita errores de permisos cruzados (CORS)
-      }).catch(e => console.log(""));
+      let fd = new FormData(); fd.append("nombre", nVal); fd.append("rut", rVal); fd.append("disciplina", dVal);
+      fetch(urlAPI, { method: 'POST', body: fd, mode: 'no-cors' }).catch(e => console.log(""));
     }
     
     function copiarLink() {
