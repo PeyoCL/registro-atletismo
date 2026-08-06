@@ -13,7 +13,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Generador de Marcador Estadio</title>
+  <title>Generador de Marcadores Estadio</title>
   
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -27,7 +27,7 @@
 </head>
 <body>
   <div class="container">
-    <h2>Asistente de Marcador</h2>
+    <h2>Asistente de Marcadores</h2>
     <p class="bajada">Genera tu enlace pre-llenado.</p>
     
     <label>Nombre del Atleta:</label>
@@ -46,25 +46,24 @@
       <input type="text" id="profesor">
       <label>Disciplina Deportiva:</label>
       <select id="disciplina" onchange="checkOtros('disciplina', 'div_otra_disc')">
-        <option value="Atletismo">Atletismo</option>
-        <option value="Natación">Natación</option>
-        <option value="Hockey patín">Hockey patín</option>
-        <option value="Tenis de mesa">Tenis de mesa</option>
-        <option value="Acondicionamiento físico">Acondicionamiento físico</option>
-        <option value="Entrenamiento funcional">Entrenamiento funcional</option>
-        <option value="Yoga">Yoga</option>
-        <option value="Zumba">Zumba</option>
-        <option value="Baile entretenido">Baile entretenido</option>
-        <option value="Halterofilia">Halterofilia</option>
-        <option value="Karate">Karate</option>
-        <option value="Fútbol">Fútbol</option>
-        <option value="Balonmano">Balonmano</option>
-        <option value="Taekwondo">Taekwondo</option>
-        <option value="Futsal">Futsal</option>
-        <option value="Judo">Judo</option>
-        <option value="Patinaje">Patinaje</option>
-        <option value="Otra actividad o deporte">Otra actividad o deporte</option>
-        <option value="Otros">Otros</option>
+        <option value="ATLETISMO">ATLETISMO</option>
+        <option value="NATACION">NATACION</option>
+        <option value="HOCKEY PATIN">HOCKEY PATIN</option>
+        <option value="TENIS DE MESA">TENIS DE MESA</option>
+        <option value="ACONDICIONAMIENTO FISICO">ACONDICIONAMIENTO FISICO</option>
+        <option value="ENTRENAMIENTO FUNCIONAL">ENTRENAMIENTO FUNCIONAL</option>
+        <option value="YOGA">YOGA</option>
+        <option value="ZUMBA">ZUMBA</option>
+        <option value="BAILE ENTRETENIDO">BAILE ENTRETENIDO</option>
+        <option value="HALTEROFILIA">HALTEROFILIA</option>
+        <option value="KARATE">KARATE</option>
+        <option value="FUTBOL">FUTBOL</option>
+        <option value="BALONMANO">BALONMANO</option>
+        <option value="TAEKWONDO">TAEKWONDO</option>
+        <option value="FUTSAL">FUTSAL</option>
+        <option value="JUDO">JUDO</option>
+        <option value="PATINAJE">PATINAJE</option>
+        <option value="OTROS">OTROS</option>
       </select>
       <div class="sub-panel" id="div_otra_disc">
         <label>Escriba el deporte:</label>
@@ -80,25 +79,25 @@
       </select>
       <label>Recinto a utilizar:</label>
       <select id="recinto" onchange="checkOtros('recinto', 'div_otro_rec')">
-        <option value="Piscina Temperada">Piscina Temperada</option>
-        <option value="Piscina al Aire Libre">Piscina al Aire Libre</option>
-        <option value="Salón de Tenis de Mesa (Cendyr)">Salón de Tenis de Mesa (Cendyr)</option>
-        <option value="Pista Atlética">Pista Atlética</option>
-        <option value="Zona Calentamiento Sur">Zona Calentamiento Sur</option>
-        <option value="Zona Calentamiento Norte">Zona Calentamiento Norte</option>
-        <option value="Sala de Prensa">Sala de Prensa</option>
-        <option value="Sala Multiuso 3er Piso">Sala Multiuso 3er Piso</option>
-        <option value="Parque Piscina Temperada">Parque Piscina Temperada</option>
-        <option value="Sala Conferencias">Sala Conferencias</option>
-        <option value="Complejo Deportivo (5 Norte)">Complejo Deportivo (5 Norte)</option>
+        <option value="PISCINA TEMPERADA">PISCINA TEMPERADA</option>
+        <option value="PISCINA AIRE LIBRE">PISCINA AIRE LIBRE</option>
+        <option value="SALON TENIS DE MESA (CENDYR)">SALON TENIS DE MESA (CENDYR)</option>
+        <option value="PISTA ATLETICA">PISTA ATLETICA</option>
+        <option value="ZONA CALENTAMIENTO SUR">ZONA CALENTAMIENTO SUR</option>
+        <option value="ZONA CALENTAMIENTO NORTE">ZONA CALENTAMIENTO NORTE</option>
+        <option value="SALA DE PRENSA">SALA DE PRENSA</option>
+        <option value="SALA MULTIUSO 3er PISO">SALA MULTIUSO 3er PISO</option>
+        <option value="PARQUE PISCINA TEMPERADA">PARQUE PISCINA TEMPERADA</option>
+        <option value="SALA CONFERENCIAS">SALA CONFERENCIAS</option>
+        <option value="COMPLEJO DEPORTIVO (5 NORTE)">COMPLEJO DEPORTIVO (5 NORTE)</option>
         <option value="Cancha Hockey/Balonmano">Cancha Hockey/Balonmano</option>
         <option value="Sala Musculación Piscina Temperada">Sala Musculación Piscina Temperada</option>
         <option value="Cancha Central Estadio Fiscal">Cancha Central Estadio Fiscal</option>
         <option value="Sala de Musculacion de Canotaje (Sala 70)">Sala de Musculacion de Canotaje (Sala 70)</option>
-        <option value="Sala de Musculacion (Cendyr)">Sala de Musculacion (Cendyr)</option>
+        <option value="SALA DE MUSCULACION CENDYR">SALA DE MUSCULACION CENDYR</option>
         <option value="Salón de Karate (Cendyr)">Salón de Karate (Cendyr)</option>
         <option value="Sala de Halterofilia (Cendyr)">Sala de Halterofilia (Cendyr)</option>
-        <option value="Otros">Otros</option>
+        <option value="OTROS">OTROS</option>
       </select>
       <div class="sub-panel" id="div_otro_rec">
         <label>Escriba el recinto:</label>
@@ -107,7 +106,7 @@
     </div>
     
     <div id="error-box" class="error-box"></div>
-    <button id="proc_btn" onclick="generarLink()">GENERAR MARCADOR</button>
+    <button id="proc_btn" onclick="generarLink()">GENERAR MARCADORES</button>
     
     <div id="resultado">
       <div class="link-section">
@@ -134,11 +133,12 @@
     const formBaseUrl="https://docs.google.com/forms/d/e/1FAIpQLSddXqIMNxTFs5CthCX7n9pUfoP4FFqQe3GmuZDm4pPzpW2I3g/viewform";
     const _0x4f=["","ZW50cnkuNjYxMzUxNTQz","ZW50cnkuMTM5NjEwMTM1OQ==","ZW50cnkuNDcyMTA0MTg2","ZW50cnkuNzcxMjAwMzQ3","ZW50cnkuMTczNjU0MTA0Mg==","ZW50cnkuMTM1ODk0Mzg2OQ==","ZW50cnkuMTA0OTc4NjkxMA=="];
     const _v=(i)=>atob(_0x4f[i]);
-    const _b64={club:"Q29sZWdpbyBNb250ZXNzb3Jp",prof:"THVrYXMgU2F6byB5IEFyaWVsIFRvcnJlcw==",disc:"QXRsZXRpc21v",cat:"VVNVQVJJTyBQQVJUSUNVTEFSIChObyBwZXJ0ZW5lY2UgYSBsb3MgcHJvZ3JhbWFzIGFudGVyaW9yZXMp",rec:"UGlzdGEgQXRsw6l0aWNh"};
+    // Valores por defecto actualizados (Base64) para ATLETISMO y PISTA ATLETICA
+    const _b64={club:"Q29sZWdpbyBNb250ZXNzb3Jp",prof:"THVrYXMgU2F6byB5IEFyaWVsIFRvcnJlcw==",disc:"QVRMRVRJU01P",cat:"VVNVQVJJTyBQQVJUSUNVTEFSIChObyBwZXJ0ZW5lY2UgYSBsb3MgcHJvZ3JhbWFzIGFudGVyaW9yZXMp",rec:"UElTVEEgQVRMRVRJQ0E="};
     const _d64=(str)=>decodeURIComponent(escape(atob(str)));
     window.setDefaults=function(){document.getElementById('club').value=_d64(_b64.club);document.getElementById('profesor').value=_d64(_b64.prof);document.getElementById('disciplina').value=_d64(_b64.disc);document.getElementById('categoria').value=_d64(_b64.cat);document.getElementById('recinto').value=_d64(_b64.rec);document.getElementById('otra_disc_txt').value="";document.getElementById('div_otra_disc').style.display='none';document.getElementById('otro_rec_txt').value="";document.getElementById('div_otro_rec').style.display='none';};
     window.toggleAdvanced=function(){const p=document.getElementById('adv_panel');const b=document.getElementById('toggle_adv');if(p.style.display==='block'){p.style.display='none';b.innerText="⚙️ Opciones Avanzadas";window.setDefaults();}else{p.style.display='block';b.innerText="✖️ Ocultar y Restaurar a Atletismo";}};
-    window.checkOtros=function(sId,pId){const v=document.getElementById(sId).value;document.getElementById(pId).style.display=(v==='Otros'||v==='Otra actividad o deporte')?'block':'none';};
+    window.checkOtros=function(sId,pId){const v=document.getElementById(sId).value;document.getElementById(pId).style.display=(v==='OTROS')?'block':'none';};
     window.vR=function(r){var v=r.replace(/[^0-9kK]/g,"");if(v.length<8||v.length>9)return false;var c=v.slice(0,-1);var d=v.slice(-1).toUpperCase();var s=0;var m=2;for(var i=1;i<=c.length;i++){s=s+(m*c.charAt(c.length-i));m=(m<7)?m+1:2;}var de=11-(s%11);return d==((de==11)?0:((de==10)?"K":de));};
     window.generarLink=async function(){
       const nI=document.getElementById('nombre');const rI=document.getElementById('rut');const nVal=nI.value.trim();const rVal=rI.value.trim();const eB=document.getElementById('error-box');nI.classList.remove('input-error');rI.classList.remove('input-error');eB.style.display='none';
@@ -146,8 +146,8 @@
       if(!window.vR(rVal)){rI.classList.add('input-error');eB.innerText="El RUT ingresado no es válido.";eB.style.display='block';rI.focus();return;}
       const cleanRut=rVal.replace(/[^0-9kK]/g,"").toUpperCase();const enc=(val)=>encodeURIComponent(val).replace(/%20/g,"+");let p=[];
       p.push(_v(1)+"="+enc(nVal));p.push(_v(2)+"="+enc(cleanRut));p.push(_v(3)+"="+enc(document.getElementById('club').value.trim()));p.push(_v(4)+"="+enc(document.getElementById('profesor').value.trim()));p.push(_v(6)+"="+enc(document.getElementById('categoria').value));
-      let dVal=document.getElementById('disciplina').value;if(dVal==='Otros'||dVal==='Otra actividad o deporte'){let dTxt=document.getElementById('otra_disc_txt').value.trim();p.push(_v(5)+"=__other_option__");p.push(_v(5)+".other_option_response="+enc(dTxt));dVal=dTxt;}else{p.push(_v(5)+"="+enc(dVal));}
-      let reVal=document.getElementById('recinto').value;if(reVal==='Otros'){let reTxt=document.getElementById('otro_rec_txt').value.trim();p.push(_v(7)+"=__other_option__");p.push(_v(7)+".other_option_response="+enc(reTxt));}else{p.push(_v(7)+"="+enc(reVal));}
+      let dVal=document.getElementById('disciplina').value;if(dVal==='OTROS'){let dTxt=document.getElementById('otra_disc_txt').value.trim();p.push(_v(5)+"=__other_option__");p.push(_v(5)+".other_option_response="+enc(dTxt));dVal=dTxt;}else{p.push(_v(5)+"="+enc(dVal));}
+      let reVal=document.getElementById('recinto').value;if(reVal==='OTROS'){let reTxt=document.getElementById('otro_rec_txt').value.trim();p.push(_v(7)+"=__other_option__");p.push(_v(7)+".other_option_response="+enc(reTxt));}else{p.push(_v(7)+"="+enc(reVal));}
       
       const normalLink=formBaseUrl+"?"+p.join("&");
       const autoLink=formBaseUrl.replace('/viewform','/formResponse')+"?"+p.join("&")+"&submit=Submit";
